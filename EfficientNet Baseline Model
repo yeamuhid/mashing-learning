@@ -1,0 +1,674 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNYRldHNcKYJ5Ho6JGE273U",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yeamuhid/mashing-learning/blob/main/EfficientNet%20Baseline%20Model\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 358
+        },
+        "id": "HEYNfhO2ycxm",
+        "outputId": "30124b87-fb89-414f-f944-d18485541bd8"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Downloading data from https://storage.googleapis.com/keras-applications/efficientnetb0_notop.h5\n",
+            "\u001b[1m16705208/16705208\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m0s\u001b[0m 0us/step\n"
+          ]
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1mModel: \"functional\"\u001b[0m\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\">Model: \"functional\"</span>\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓\n",
+              "┃\u001b[1m \u001b[0m\u001b[1mLayer (type)                        \u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1mOutput Shape               \u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1m        Param #\u001b[0m\u001b[1m \u001b[0m┃\n",
+              "┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩\n",
+              "│ input_layer_1 (\u001b[38;5;33mInputLayer\u001b[0m)           │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m224\u001b[0m, \u001b[38;5;34m224\u001b[0m, \u001b[38;5;34m3\u001b[0m)         │               \u001b[38;5;34m0\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ efficientnetb0 (\u001b[38;5;33mFunctional\u001b[0m)          │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m7\u001b[0m, \u001b[38;5;34m7\u001b[0m, \u001b[38;5;34m1280\u001b[0m)          │       \u001b[38;5;34m4,049,571\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ global_average_pooling2d             │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m1280\u001b[0m)                │               \u001b[38;5;34m0\u001b[0m │\n",
+              "│ (\u001b[38;5;33mGlobalAveragePooling2D\u001b[0m)             │                             │                 │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dropout (\u001b[38;5;33mDropout\u001b[0m)                    │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m1280\u001b[0m)                │               \u001b[38;5;34m0\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dense (\u001b[38;5;33mDense\u001b[0m)                        │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m10\u001b[0m)                  │          \u001b[38;5;34m12,810\u001b[0m │\n",
+              "└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓\n",
+              "┃<span style=\"font-weight: bold\"> Layer (type)                         </span>┃<span style=\"font-weight: bold\"> Output Shape                </span>┃<span style=\"font-weight: bold\">         Param # </span>┃\n",
+              "┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩\n",
+              "│ input_layer_1 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">InputLayer</span>)           │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">224</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">224</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">3</span>)         │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ efficientnetb0 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Functional</span>)          │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">7</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">7</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)          │       <span style=\"color: #00af00; text-decoration-color: #00af00\">4,049,571</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ global_average_pooling2d             │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)                │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">GlobalAveragePooling2D</span>)             │                             │                 │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dropout (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Dropout</span>)                    │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)                │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dense (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Dense</span>)                        │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">10</span>)                  │          <span style=\"color: #00af00; text-decoration-color: #00af00\">12,810</span> │\n",
+              "└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Total params: \u001b[0m\u001b[38;5;34m4,062,381\u001b[0m (15.50 MB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Total params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">4,062,381</span> (15.50 MB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Trainable params: \u001b[0m\u001b[38;5;34m12,810\u001b[0m (50.04 KB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Trainable params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">12,810</span> (50.04 KB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Non-trainable params: \u001b[0m\u001b[38;5;34m4,049,571\u001b[0m (15.45 MB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Non-trainable params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">4,049,571</span> (15.45 MB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        }
+      ],
+      "source": [
+        "import tensorflow as tf\n",
+        "from tensorflow.keras.models import Model\n",
+        "from tensorflow.keras.layers import Dense, Dropout, GlobalAveragePooling2D\n",
+        "from tensorflow.keras.applications import EfficientNetB0\n",
+        "\n",
+        "# Define the EfficientNet Baseline Model\n",
+        "def build_efficientnet_baseline(input_shape=(224, 224, 3), num_classes=10, dropout_rate=0.2):\n",
+        "    \"\"\"\n",
+        "    Builds an EfficientNet Baseline Model.\n",
+        "\n",
+        "    Args:\n",
+        "        input_shape (tuple): Shape of the input images (height, width, channels).\n",
+        "        num_classes (int): Number of output classes.\n",
+        "        dropout_rate (float): Dropout rate for the dropout layer.\n",
+        "\n",
+        "    Returns:\n",
+        "        model (tf.keras.Model): Compiled EfficientNet model.\n",
+        "    \"\"\"\n",
+        "    # Load the EfficientNetB0 backbone with pretrained weights (ImageNet)\n",
+        "    base_model = EfficientNetB0(weights='imagenet', include_top=False, input_shape=input_shape)\n",
+        "\n",
+        "    # Freeze the base model layers\n",
+        "    base_model.trainable = False\n",
+        "\n",
+        "    # Add custom classification head\n",
+        "    inputs = tf.keras.Input(shape=input_shape)\n",
+        "    x = base_model(inputs, training=False)  # Use the base model in inference mode\n",
+        "    x = GlobalAveragePooling2D()(x)\n",
+        "    x = Dropout(dropout_rate)(x)\n",
+        "    outputs = Dense(num_classes, activation='softmax')(x)\n",
+        "\n",
+        "    # Define the model\n",
+        "    model = Model(inputs, outputs)\n",
+        "\n",
+        "    # Compile the model\n",
+        "    model.compile(\n",
+        "        optimizer=tf.keras.optimizers.Adam(),\n",
+        "        loss='sparse_categorical_crossentropy',\n",
+        "        metrics=['accuracy']\n",
+        "    )\n",
+        "\n",
+        "    return model\n",
+        "\n",
+        "# Example Usage\n",
+        "if __name__ == \"__main__\":\n",
+        "    # Define input shape and number of classes\n",
+        "    input_shape = (224, 224, 3)\n",
+        "    num_classes = 10\n",
+        "\n",
+        "    # Build the model\n",
+        "    model = build_efficientnet_baseline(input_shape=input_shape, num_classes=num_classes)\n",
+        "\n",
+        "    # Display the model architecture\n",
+        "    model.summary()\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import tensorflow as tf\n",
+        "from tensorflow.keras.models import Model\n",
+        "from tensorflow.keras.layers import Dense, GlobalAveragePooling2D\n",
+        "from tensorflow.keras.applications import EfficientNetB0\n",
+        "\n",
+        "# Define the EfficientNet Baseline Model\n",
+        "def build_efficientnet_baseline(input_shape=(224, 224, 3), num_classes=10):\n",
+        "    \"\"\"\n",
+        "    Builds a basic EfficientNet Baseline Model.\n",
+        "\n",
+        "    Args:\n",
+        "        input_shape (tuple): Shape of the input images (height, width, channels).\n",
+        "        num_classes (int): Number of output classes.\n",
+        "\n",
+        "    Returns:\n",
+        "        model (tf.keras.Model): Compiled EfficientNet model.\n",
+        "    \"\"\"\n",
+        "    # Load the EfficientNetB0 backbone with pretrained weights (ImageNet)\n",
+        "    base_model = EfficientNetB0(weights='imagenet', include_top=False, input_shape=input_shape)\n",
+        "\n",
+        "    # Add custom classification head\n",
+        "    inputs = tf.keras.Input(shape=input_shape)\n",
+        "    x = base_model(inputs, training=False)  # Use the base model in inference mode\n",
+        "    x = GlobalAveragePooling2D()(x)\n",
+        "    outputs = Dense(num_classes, activation='softmax')(x)\n",
+        "\n",
+        "    # Define the model\n",
+        "    model = Model(inputs, outputs)\n",
+        "\n",
+        "    # Compile the model\n",
+        "    model.compile(\n",
+        "        optimizer='adam',\n",
+        "        loss='sparse_categorical_crossentropy',\n",
+        "        metrics=['accuracy']\n",
+        "    )\n",
+        "\n",
+        "    return model\n",
+        "\n",
+        "# Example Usage\n",
+        "if __name__ == \"__main__\":\n",
+        "    # Define input shape and number of classes\n",
+        "    input_shape = (224, 224, 3)\n",
+        "    num_classes = 10\n",
+        "\n",
+        "    # Build the model\n",
+        "    model = build_efficientnet_baseline(input_shape=input_shape, num_classes=num_classes)\n",
+        "\n",
+        "    # Display the model architecture\n",
+        "    model.summary()\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 289
+        },
+        "id": "W8VbPqoqy3g3",
+        "outputId": "277727d9-922e-4011-bbbb-a558640b8af8"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1mModel: \"functional_1\"\u001b[0m\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\">Model: \"functional_1\"</span>\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓\n",
+              "┃\u001b[1m \u001b[0m\u001b[1mLayer (type)                        \u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1mOutput Shape               \u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1m        Param #\u001b[0m\u001b[1m \u001b[0m┃\n",
+              "┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩\n",
+              "│ input_layer_3 (\u001b[38;5;33mInputLayer\u001b[0m)           │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m224\u001b[0m, \u001b[38;5;34m224\u001b[0m, \u001b[38;5;34m3\u001b[0m)         │               \u001b[38;5;34m0\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ efficientnetb0 (\u001b[38;5;33mFunctional\u001b[0m)          │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m7\u001b[0m, \u001b[38;5;34m7\u001b[0m, \u001b[38;5;34m1280\u001b[0m)          │       \u001b[38;5;34m4,049,571\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ global_average_pooling2d_1           │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m1280\u001b[0m)                │               \u001b[38;5;34m0\u001b[0m │\n",
+              "│ (\u001b[38;5;33mGlobalAveragePooling2D\u001b[0m)             │                             │                 │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dense_1 (\u001b[38;5;33mDense\u001b[0m)                      │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m10\u001b[0m)                  │          \u001b[38;5;34m12,810\u001b[0m │\n",
+              "└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓\n",
+              "┃<span style=\"font-weight: bold\"> Layer (type)                         </span>┃<span style=\"font-weight: bold\"> Output Shape                </span>┃<span style=\"font-weight: bold\">         Param # </span>┃\n",
+              "┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩\n",
+              "│ input_layer_3 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">InputLayer</span>)           │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">224</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">224</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">3</span>)         │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ efficientnetb0 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Functional</span>)          │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">7</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">7</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)          │       <span style=\"color: #00af00; text-decoration-color: #00af00\">4,049,571</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ global_average_pooling2d_1           │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)                │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">GlobalAveragePooling2D</span>)             │                             │                 │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dense_1 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Dense</span>)                      │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">10</span>)                  │          <span style=\"color: #00af00; text-decoration-color: #00af00\">12,810</span> │\n",
+              "└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Total params: \u001b[0m\u001b[38;5;34m4,062,381\u001b[0m (15.50 MB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Total params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">4,062,381</span> (15.50 MB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Trainable params: \u001b[0m\u001b[38;5;34m4,020,358\u001b[0m (15.34 MB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Trainable params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">4,020,358</span> (15.34 MB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Non-trainable params: \u001b[0m\u001b[38;5;34m42,023\u001b[0m (164.16 KB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Non-trainable params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">42,023</span> (164.16 KB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import tensorflow as tf\n",
+        "from tensorflow.keras import layers, models\n",
+        "from tensorflow.keras.applications import EfficientNetB0\n",
+        "\n",
+        "# Load the EfficientNetB0 model pre-trained on ImageNet\n",
+        "def create_efficientnet_baseline(input_shape=(224, 224, 3), num_classes=10):\n",
+        "    \"\"\"\n",
+        "    Create a baseline model using EfficientNetB0 as the backbone.\n",
+        "\n",
+        "    Parameters:\n",
+        "        input_shape (tuple): The shape of the input images (height, width, channels).\n",
+        "        num_classes (int): Number of output classes.\n",
+        "\n",
+        "    Returns:\n",
+        "        model (tf.keras.Model): The Keras model.\n",
+        "    \"\"\"\n",
+        "    # Load pre-trained EfficientNetB0 without the top layers\n",
+        "    base_model = EfficientNetB0(include_top=False, weights=\"imagenet\", input_shape=input_shape)\n",
+        "    base_model.trainable = False  # Freeze the base model\n",
+        "\n",
+        "    # Build the classification head\n",
+        "    inputs = tf.keras.Input(shape=input_shape)\n",
+        "    x = base_model(inputs, training=False)  # Pass through the EfficientNet base\n",
+        "    x = layers.GlobalAveragePooling2D()(x)  # Add global average pooling layer\n",
+        "    x = layers.Dropout(0.2)(x)  # Add dropout for regularization\n",
+        "    outputs = layers.Dense(num_classes, activation=\"softmax\")(x)  # Add classification layer\n",
+        "\n",
+        "    # Combine inputs and outputs into a Model\n",
+        "    model = tf.keras.Model(inputs, outputs)\n",
+        "\n",
+        "    return model\n",
+        "\n",
+        "# Define parameters\n",
+        "input_shape = (224, 224, 3)\n",
+        "num_classes = 10\n",
+        "\n",
+        "# Create the EfficientNet baseline model\n",
+        "model = create_efficientnet_baseline(input_shape=input_shape, num_classes=num_classes)\n",
+        "\n",
+        "# Compile the model\n",
+        "model.compile(optimizer=tf.keras.optimizers.Adam(),\n",
+        "              loss=\"sparse_categorical_crossentropy\",\n",
+        "              metrics=[\"accuracy\"])\n",
+        "\n",
+        "# Display the model summary\n",
+        "model.summary()\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 323
+        },
+        "id": "2wvs9MSKzeVW",
+        "outputId": "54d90691-1b22-4a2f-c58c-6578245a164b"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1mModel: \"functional_2\"\u001b[0m\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\">Model: \"functional_2\"</span>\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓\n",
+              "┃\u001b[1m \u001b[0m\u001b[1mLayer (type)                        \u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1mOutput Shape               \u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1m        Param #\u001b[0m\u001b[1m \u001b[0m┃\n",
+              "┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩\n",
+              "│ input_layer_5 (\u001b[38;5;33mInputLayer\u001b[0m)           │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m224\u001b[0m, \u001b[38;5;34m224\u001b[0m, \u001b[38;5;34m3\u001b[0m)         │               \u001b[38;5;34m0\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ efficientnetb0 (\u001b[38;5;33mFunctional\u001b[0m)          │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m7\u001b[0m, \u001b[38;5;34m7\u001b[0m, \u001b[38;5;34m1280\u001b[0m)          │       \u001b[38;5;34m4,049,571\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ global_average_pooling2d_2           │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m1280\u001b[0m)                │               \u001b[38;5;34m0\u001b[0m │\n",
+              "│ (\u001b[38;5;33mGlobalAveragePooling2D\u001b[0m)             │                             │                 │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dropout_1 (\u001b[38;5;33mDropout\u001b[0m)                  │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m1280\u001b[0m)                │               \u001b[38;5;34m0\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dense_2 (\u001b[38;5;33mDense\u001b[0m)                      │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m10\u001b[0m)                  │          \u001b[38;5;34m12,810\u001b[0m │\n",
+              "└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓\n",
+              "┃<span style=\"font-weight: bold\"> Layer (type)                         </span>┃<span style=\"font-weight: bold\"> Output Shape                </span>┃<span style=\"font-weight: bold\">         Param # </span>┃\n",
+              "┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩\n",
+              "│ input_layer_5 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">InputLayer</span>)           │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">224</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">224</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">3</span>)         │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ efficientnetb0 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Functional</span>)          │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">7</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">7</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)          │       <span style=\"color: #00af00; text-decoration-color: #00af00\">4,049,571</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ global_average_pooling2d_2           │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)                │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">GlobalAveragePooling2D</span>)             │                             │                 │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dropout_1 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Dropout</span>)                  │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)                │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dense_2 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Dense</span>)                      │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">10</span>)                  │          <span style=\"color: #00af00; text-decoration-color: #00af00\">12,810</span> │\n",
+              "└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Total params: \u001b[0m\u001b[38;5;34m4,062,381\u001b[0m (15.50 MB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Total params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">4,062,381</span> (15.50 MB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Trainable params: \u001b[0m\u001b[38;5;34m12,810\u001b[0m (50.04 KB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Trainable params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">12,810</span> (50.04 KB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Non-trainable params: \u001b[0m\u001b[38;5;34m4,049,571\u001b[0m (15.45 MB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Non-trainable params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">4,049,571</span> (15.45 MB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import tensorflow as tf\n",
+        "from tensorflow.keras import layers, models\n",
+        "from tensorflow.keras.applications import EfficientNetB0\n",
+        "\n",
+        "def create_efficientnet_baseline(input_shape=(224, 224, 3), num_classes=10):\n",
+        "    \"\"\"\n",
+        "    Create a baseline model using EfficientNetB0 as the backbone.\n",
+        "\n",
+        "    Parameters:\n",
+        "        input_shape (tuple): The shape of the input images (height, width, channels).\n",
+        "        num_classes (int): Number of output classes.\n",
+        "\n",
+        "    Returns:\n",
+        "        model (tf.keras.Model): The Keras model.\n",
+        "    \"\"\"\n",
+        "    # Load pre-trained EfficientNetB0 without the top layers\n",
+        "    base_model = EfficientNetB0(include_top=False, weights=\"imagenet\", input_shape=input_shape)\n",
+        "    base_model.trainable = False  # Freeze the base model\n",
+        "\n",
+        "    # Build the classification head\n",
+        "    inputs = tf.keras.Input(shape=input_shape)\n",
+        "    x = base_model(inputs, training=False)  # Pass through the EfficientNet base\n",
+        "    x = layers.GlobalAveragePooling2D()(x)  # Add global average pooling layer\n",
+        "    x = layers.Dropout(0.2)(x)  # Add dropout for regularization\n",
+        "    outputs = layers.Dense(num_classes, activation=\"softmax\")(x)  # Add classification layer\n",
+        "\n",
+        "    # Combine inputs and outputs into a Model\n",
+        "    model = tf.keras.Model(inputs, outputs)\n",
+        "\n",
+        "    return model\n",
+        "\n",
+        "# Define parameters\n",
+        "input_shape = (224, 224, 3)\n",
+        "num_classes = 10\n",
+        "\n",
+        "# Create the EfficientNet baseline model\n",
+        "model = create_efficientnet_baseline(input_shape=input_shape, num_classes=num_classes)\n",
+        "\n",
+        "# Compile the model\n",
+        "model.compile(optimizer=tf.keras.optimizers.Adam(),\n",
+        "              loss=\"sparse_categorical_crossentropy\",\n",
+        "              metrics=[\"accuracy\"])\n",
+        "\n",
+        "# Display the model summary\n",
+        "model.summary()\n",
+        "\n",
+        "# Example dataset (replace with your own dataset)\n",
+        "(x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()\n",
+        "\n",
+        "# Resize images to 224x224\n",
+        "x_train = tf.image.resize(x_train, (224, 224)) / 255.0\n",
+        "x_test = tf.image.resize(x_test, (224, 224)) / 255.0\n",
+        "\n",
+        "# Train the model\n",
+        "history = model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=10, batch_size=32)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 358
+        },
+        "id": "QgdBb0qs0XsN",
+        "outputId": "589abe33-f864-47e3-d682-debf42b42f58"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1mModel: \"functional_3\"\u001b[0m\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\">Model: \"functional_3\"</span>\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓\n",
+              "┃\u001b[1m \u001b[0m\u001b[1mLayer (type)                        \u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1mOutput Shape               \u001b[0m\u001b[1m \u001b[0m┃\u001b[1m \u001b[0m\u001b[1m        Param #\u001b[0m\u001b[1m \u001b[0m┃\n",
+              "┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩\n",
+              "│ input_layer_7 (\u001b[38;5;33mInputLayer\u001b[0m)           │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m224\u001b[0m, \u001b[38;5;34m224\u001b[0m, \u001b[38;5;34m3\u001b[0m)         │               \u001b[38;5;34m0\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ efficientnetb0 (\u001b[38;5;33mFunctional\u001b[0m)          │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m7\u001b[0m, \u001b[38;5;34m7\u001b[0m, \u001b[38;5;34m1280\u001b[0m)          │       \u001b[38;5;34m4,049,571\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ global_average_pooling2d_3           │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m1280\u001b[0m)                │               \u001b[38;5;34m0\u001b[0m │\n",
+              "│ (\u001b[38;5;33mGlobalAveragePooling2D\u001b[0m)             │                             │                 │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dropout_2 (\u001b[38;5;33mDropout\u001b[0m)                  │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m1280\u001b[0m)                │               \u001b[38;5;34m0\u001b[0m │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dense_3 (\u001b[38;5;33mDense\u001b[0m)                      │ (\u001b[38;5;45mNone\u001b[0m, \u001b[38;5;34m10\u001b[0m)                  │          \u001b[38;5;34m12,810\u001b[0m │\n",
+              "└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓\n",
+              "┃<span style=\"font-weight: bold\"> Layer (type)                         </span>┃<span style=\"font-weight: bold\"> Output Shape                </span>┃<span style=\"font-weight: bold\">         Param # </span>┃\n",
+              "┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩\n",
+              "│ input_layer_7 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">InputLayer</span>)           │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">224</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">224</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">3</span>)         │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ efficientnetb0 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Functional</span>)          │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">7</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">7</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)          │       <span style=\"color: #00af00; text-decoration-color: #00af00\">4,049,571</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ global_average_pooling2d_3           │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)                │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "│ (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">GlobalAveragePooling2D</span>)             │                             │                 │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dropout_2 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Dropout</span>)                  │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">1280</span>)                │               <span style=\"color: #00af00; text-decoration-color: #00af00\">0</span> │\n",
+              "├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤\n",
+              "│ dense_3 (<span style=\"color: #0087ff; text-decoration-color: #0087ff\">Dense</span>)                      │ (<span style=\"color: #00d7ff; text-decoration-color: #00d7ff\">None</span>, <span style=\"color: #00af00; text-decoration-color: #00af00\">10</span>)                  │          <span style=\"color: #00af00; text-decoration-color: #00af00\">12,810</span> │\n",
+              "└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Total params: \u001b[0m\u001b[38;5;34m4,062,381\u001b[0m (15.50 MB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Total params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">4,062,381</span> (15.50 MB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Trainable params: \u001b[0m\u001b[38;5;34m12,810\u001b[0m (50.04 KB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Trainable params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">12,810</span> (50.04 KB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "\u001b[1m Non-trainable params: \u001b[0m\u001b[38;5;34m4,049,571\u001b[0m (15.45 MB)\n"
+            ],
+            "text/html": [
+              "<pre style=\"white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace\"><span style=\"font-weight: bold\"> Non-trainable params: </span><span style=\"color: #00af00; text-decoration-color: #00af00\">4,049,571</span> (15.45 MB)\n",
+              "</pre>\n"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Downloading data from https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz\n",
+            "\u001b[1m170498071/170498071\u001b[0m \u001b[32m━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[37m\u001b[0m \u001b[1m4s\u001b[0m 0us/step\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
